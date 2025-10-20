@@ -8,6 +8,7 @@ from .models import (
     ListaPrecio,
     PrecioArticulo,
     ReglaPrecio,
+    CombinacionProducto,
 )
 
 @admin.register(Articulo)
@@ -40,4 +41,5 @@ admin.site.register(Empresa)
 admin.site.register(Sucursal)
 admin.site.register(LineaArticulo)
 admin.site.register(GrupoArticulo)
+admin.site.register(CombinacionProducto)
 

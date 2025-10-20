@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'db_gestionprecios',         # El nombre que elegiste para tu BD
         'USER': 'postgres',           # Tu usuario de postgres (normalmente es 'postgres')
-        'PASSWORD': 'chapo',  # La contraseña que pusiste al instalar PostgreSQL
+        'PASSWORD': '123',  # La contraseña que pusiste al instalar PostgreSQL
         'HOST': 'localhost',          # No cambiar
         'PORT': '5432',               # No cambiar (a menos que lo hayas instalado en otro puerto)
     }

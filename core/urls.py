@@ -7,5 +7,5 @@ urlpatterns = [
     # Añade esta línea:
     # Le dice a Django que cualquier URL que empiece con 'api/precios/'
     # debe ser manejada por las URLs que definimos en nuestra app.
-    path('api/precios/', include('gestion_precios.urls')),
+    path('api/', include('gestion_precios.urls')),
 ]
