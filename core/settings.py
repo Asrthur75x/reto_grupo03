@@ -76,12 +76,8 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_gestionprecios',         # El nombre que elegiste para tu BD
-        'USER': 'postgres',           # Tu usuario de postgres (normalmente es 'postgres')
-        'PASSWORD': '123',  # La contraseña que pusiste al instalar PostgreSQL
-        'HOST': 'localhost',          # No cambiar
-        'PORT': '5432',               # No cambiar (a menos que lo hayas instalado en otro puerto)
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

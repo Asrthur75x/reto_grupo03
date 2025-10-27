@@ -18,30 +18,62 @@ class PrecioArticuloSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReglaPrecioSerializer(serializers.ModelSerializer):
+    """
+    Serializador para ReglaPrecio con validación de duplicados
+    y manejo explícito de ForeignKeys opcionales.
+    """
+    
+    # --- INICIO DE LA SOLUCIÓN ---
+    # Le decimos a DRF explícitamente cómo manejar estos campos FK.
+    # Aceptan `null` y no son requeridos en la petición.
+    aplica_articulo = serializers.PrimaryKeyRelatedField(
+        queryset=Articulo.objects.all(),
+        allow_null=True,
+        required=False
+    )
+    aplica_grupo = serializers.PrimaryKeyRelatedField(
+        queryset=GrupoArticulo.objects.all(),
+        allow_null=True,
+        required=False
+    )
+    aplica_linea = serializers.PrimaryKeyRelatedField(
+        queryset=LineaArticulo.objects.all(),
+        allow_null=True,
+        required=False
+    )
+    aplica_combinacion = serializers.PrimaryKeyRelatedField(
+        queryset=CombinacionProducto.objects.all(),
+        allow_null=True,
+        required=False
+    )
+    # --- FIN DE LA SOLUCIÓN ---
+
     class Meta:
         model = ReglaPrecio
-        fields = '__all__' # (Esto se queda igual)
+        # Ahora debemos listar todos los campos manualmente
+        fields = [
+            'id', 'lista_precio', 'nombre_regla', 'tipo_regla', 'valor_regla',
+            'condicion', 'condicion_valor', 'prioridad', 'permite_venta_bajo_costo',
+            'aplica_articulo', 'aplica_grupo', 'aplica_linea', 'aplica_combinacion'
+        ]
 
     def validate(self, data):
         """
         Validación personalizada para evitar reglas duplicadas.
+        (Esta función se queda exactamente igual que antes)
         """
-        # Definimos los campos que determinan la unicidad de una regla
         campos_unicos = [
             'lista_precio', 'tipo_regla', 'condicion', 'condicion_valor',
             'aplica_articulo', 'aplica_grupo', 'aplica_linea', 'aplica_combinacion'
         ]
         
-        # Construimos el filtro con los datos que se están intentando guardar
         filtro_duplicados = {}
         for campo in campos_unicos:
             if campo in data:
                 filtro_duplicados[campo] = data.get(campo)
         
-        # Buscamos si ya existe una regla con esos mismos valores
         query = ReglaPrecio.objects.filter(**filtro_duplicados)
 
-        # Si estamos actualizando (PUT/PATCH), debemos excluirnos a nosotros mismos
         if self.instance:
             query = query.exclude(pk=self.instance.pk)
 
